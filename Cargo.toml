@@ -2,7 +2,7 @@
 name = "satan"
 description = "Some Arthropod Terminals Are Necessary - A TUI library."
 authors = ["ErisianArchitect <https://github.com/ErisianArchitect>"]
-version = "0.1.0"
+version = "0.1.0-indev"
 edition = "2024"
 repository = "https://github.com/ErisianArchitect/satan"
 documentation = "https://docs.rs/satan"
