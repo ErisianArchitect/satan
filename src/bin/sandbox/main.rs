@@ -1,3 +1,5 @@
+// Don't try this at home, kids.
+#![allow(unused)]
 use std::io::{Stdout, Write, stdout};
 use std::time::Duration;
 use crossterm::cursor::MoveTo;
