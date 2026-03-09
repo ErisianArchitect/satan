@@ -3,9 +3,10 @@
 use std::io::{Stdout, Write, stdout};
 use std::time::Duration;
 use crossterm::cursor::MoveTo;
+use crossterm::event::{DisableBracketedPaste, DisableMouseCapture, EnableBracketedPaste, EnableMouseCapture};
 use ratatui::Terminal;
 use crossterm::{QueueableCommand, event};
-use crossterm::{execute};
+use crossterm::{execute, terminal::*};
 use ratatui::style::Color;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
@@ -21,13 +22,26 @@ impl ratatui::widgets::Widget for TestWidget {
                 cell.bg = Color::Indexed(49);
             }
         }
+        let mut x = 0;
+        for chr in self.0.chars() {
+            let Some(cell) = buf.cell_mut((x, 0)) else {
+                continue;
+            };
+            cell.set_char(chr);
+            x += 1;
+        }
     }
 }
 
 fn main() -> std::io::Result<()> {
     let mut stdout = stdout();
-    execute!(stdout, crossterm::terminal::EnterAlternateScreen)?;
-    let mut term = Terminal::<ratatui::backend::CrosstermBackend<Stdout>>::new(ratatui::backend::CrosstermBackend::new(stdout))?;
+    let mut term = ratatui::init();
+    execute!(
+        term.backend_mut(),
+        EnterAlternateScreen,
+        EnableMouseCapture,
+        EnableBracketedPaste,
+    )?;
     let test_widget = TestWidget("hello, world.");
     loop {
         let redraw = match event::read()? {
@@ -53,6 +67,11 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    execute!(stdout, crossterm::terminal::LeaveAlternateScreen)?;
+    execute!(
+        term.backend_mut(),
+        DisableBracketedPaste,
+        DisableMouseCapture,
+        LeaveAlternateScreen,
+    )?;
     Ok(())
 }
