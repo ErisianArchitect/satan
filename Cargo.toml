@@ -1,0 +1,14 @@
+[package]
+name = "satan"
+description = "Some Arthropod Terminals Are Necessary - A TUI library."
+authors = ["ErisianArchitect <https://github.com/ErisianArchitect>"]
+version = "0.1.0"
+edition = "2024"
+repository = "https://github.com/ErisianArchitect/satan"
+documentation = "https://docs.rs/satan"
+license-file = "LICENSE"
+readme = "README.md"
+
+[dependencies]
+crossterm = "0.29.0"
+ratatui = "0.30.0"
